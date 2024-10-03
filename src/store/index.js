@@ -1,4 +1,6 @@
+import { useDispatch } from 'react-redux';
 import { configureStore, createSlice } from '@reduxjs/toolkit';
+import { addSong } from '../store';
 
 const songsSlice = createSlice({
 	name: 'song',
@@ -8,7 +10,9 @@ const songsSlice = createSlice({
 			state.push(action.payload);
 		},
 		removeSong(state, action) {
-			//
+			// action.payload === string
+			const index = state.indexOf(action.payload);
+			state.splice(index, 1);
 		},
 	},
 });
@@ -19,18 +23,5 @@ const store = configureStore({
 	},
 });
 
-// actionCreators
-console.log(songsSlice.actions.addSong('Song 1'));
-
-const startingState = store.getState();
-console.log(JSON.stringify(startingState));
-
-// store.dispatch({
-// 	type: 'song/addSong',
-// 	payload: 'New Song!',
-// });
-
-store.dispatch(songsSlice.actions.addSong('Some song'));
-
-const finalState = store.getState();
-console.log(JSON.stringify(finalState));
+export { store };
+export const { addSong, removeSong } = songsSlice.actions;
